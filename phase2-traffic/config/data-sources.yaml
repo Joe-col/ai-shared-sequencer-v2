@@ -1,0 +1,23 @@
+version: 1
+data_sources:
+  # 本地 Astria 开发网
+  - id: evm-local
+    type: synthetic           # synthetic / real
+    rpc: http://executor.astria.127.0.0.1.nip.io
+    sequencer_rpc: http://rpc.sequencer.127.0.0.1.nip.io
+    faucet: http://faucet.astria.127.0.0.1.nip.io
+    explorer: http://explorer.astria.127.0.0.1.nip.io
+    rollup_id: evm-1
+    labels: ["dev", "local"]
+    rate_limit: 200           # 每秒最大打RPC次数，采集器/生成器都要尊重
+
+  # 预留的真实交易源，将来只改这里
+  - id: astria-testnet
+    type: real
+    rpc: https://rpc.testnet.astria.example
+    sequencer_rpc: https://sequencer.testnet.astria.example
+    faucet: null              # 真实网没有水龙头，用null
+    explorer: https://explorer.testnet.astria.example
+    rollup_id: evm-testnet
+    labels: ["testnet", "real"]
+    rate_limit: 50
