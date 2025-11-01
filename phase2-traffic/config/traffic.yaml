@@ -1,0 +1,30 @@
+version: 1
+traffic_profiles:
+  # 固定速率，验证链通不通
+  - name: basic-constant
+    target_source_id: evm-local     # 对应 data-sources.yaml 里的id
+    pattern: constant               # constant / burst / ramp / trace
+    tps: 50
+    duration_sec: 600
+    tx_type: transfer               # transfer / erc20 / custom
+    scenario: "baseline"
+    max_inflight: 200               # 防止executor堵死
+
+  # 峰值压测，用来触发AI或规则
+  - name: burst-2000
+    target_source_id: evm-local
+    pattern: burst
+    tps: 2000
+    duration_sec: 120
+    tx_type: transfer
+    scenario: "burst-test"
+
+  # 预留：当我们接了真实节点以后，直接用这个
+  - name: real-pass-through
+    target_source_id: astria-testnet
+    pattern: constant
+    tps: 10
+    duration_sec: 300
+    tx_type: transfer
+    scenario: "real"
+    faucet_required: false          # 真实链不能领钱
